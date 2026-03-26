@@ -24,15 +24,13 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <script>
+ <script>
 async function submitForm(e) {
   e.preventDefault();
 
-  // Collect multiple checkbox values
   const enjoyCheckboxes = document.querySelectorAll('input[name="enjoy"]:checked');
   const enjoyValues = Array.from(enjoyCheckboxes).map(cb => cb.value).join(", ");
 
-  // Get selected drink
   const drinkSelected = document.querySelector('input[name="drink"]:checked');
 
   const data = {
@@ -44,17 +42,20 @@ async function submitForm(e) {
   };
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbxQukf9A38j_VFhmLmfsFOEyqwa0BX7sjfqXkDIZHntZgtzBVaOk41XFgSWPSAsCq05ew/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbzWOlC3ZN1f4JSOtEuxQd9S1l2JoIgvTxHhvTTD3RdYBP-0jyH53TEqbyLMLqwB3-qVxw/exec", {
       method: "POST",
+      mode: "no-cors",   // 🔥 IMPORTANT FIX
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     });
 
-    // Show success screen (same behavior as before)
     window.location.hash = "success-anchor";
 
   } catch (error) {
-    alert("Something went wrong. Please try again.");
     console.error(error);
+    alert("Something went wrong");
   }
 }
 </script>
